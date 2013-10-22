@@ -13,6 +13,15 @@ module SpreeFancy
 
     initializer :assets do |config|
       Rails.application.config.assets.precompile += %w( store/print.css )
+      Rails.application.config.assets.precompile << Proc.new do |path|
+        if path =~ /\.(css|js|png|gif|eot|ttf|svg|woff)\z/
+          full_path = Rails.application.assets.resolve(path).to_path
+          #puts "including asset: " + full_path
+        else
+          #puts "excluding asset: " + path
+        end
+      end
+
     end
 
     def self.activate
